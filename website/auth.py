@@ -53,4 +53,4 @@ def signup():
             db.session.commit()
             flash('Account sign up successful', category='success')
             return redirect(url_for('auth.login'))
-    return render_template('signup.html')
+    return render_template('signup.html',user=current_user)
