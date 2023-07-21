@@ -20,24 +20,27 @@ def home():
 def upload():
     if request.method == 'POST':
         file1 = request.files['file1']
-        if file1.filename.rsplit('.',1)[1].lower() not in allowed:
-            flash('Please upload a valid file type.',category='error')
+        if not file1:
+            flash('Please upload a file to submit.',category='error')
         else:
-            full = Resume(
-                resume_name=file1.filename,
-                resume_data=file1.read(),
-                user_id=current_user.id
-            )
+            if file1.filename.rsplit('.',1)[1].lower() not in allowed:
+                flash('Please upload a valid file type.',category='error')
+            else:
+                full = Resume(
+                    resume_name=file1.filename,
+                    resume_data=file1.read(),
+                    user_id=current_user.id
+                )
 
-            yes = Resume.query.filter(Resume.user_id==current_user.id).first()
-            if yes:
-                db.session.delete(yes)
+                yes = Resume.query.filter(Resume.user_id==current_user.id).first()
+                if yes:
+                    db.session.delete(yes)
+                    db.session.commit()
+
+                db.session.add(full)
                 db.session.commit()
 
-            db.session.add(full)
-            db.session.commit()
-
-            flash('Information saved in database.',category='Success')
+                flash('Information saved in database.',category='Success')
 
     connect = sqlite3.connect('instance/database.db')
     c = connect.cursor()

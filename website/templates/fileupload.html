@@ -10,10 +10,10 @@
             <span><label><b>Resume: </b></label> {{resume.resume_name}}</span>
             <span><a href="{{ url_for('views.resume_download',upload_id=resume.id)}}">Download</a></span>
         </div>
-        <div><label><i>Last Updated: </i></label> {{resume.update}}</div>
-        <button type="button" class="close" onClick="deleteResume({{ resume.id }})">Clear Data
+        <button type="button" class="close" onClick="deleteResume({{ resume.id }})">
             <span aria-hidden="true">&times;</span>
         </button>
+        <div><label><i>Last Updated: </i></label> {{resume.update}}</div>
     </li>
     {% endfor %}
 </ol>
